@@ -1,0 +1,8 @@
+[runner]
+magicEnabled = false
+
+[theme]
+primaryColor="#122348"
+backgroundColor="#050b16"
+secondaryBackgroundColor="#1d1f3f"
+textColor="#87b1fb"
