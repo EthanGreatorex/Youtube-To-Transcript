@@ -8,11 +8,7 @@ from pytube import extract
 import pyperclip
 # youtube_transcript_api is for fetching the transcript
 from youtube_transcript_api import YouTubeTranscriptApi
-# deepmultilingualpunctiation is for punctuating the transcript
-'''
-This library does not fully correct the punctuation, but it does a good job of cleaning up the transcripts into a more readable manner.
-'''
-from deepmultilingualpunctuation import PunctuationModel
+
 
 magicEnabled = False
 
@@ -53,17 +49,6 @@ def output_transcript(TRANSCRIPT):
     for line in TRANSCRIPT:
         print(line['text'])
 
-'''
-Function to punctuate the transcript
-'''
-def punctuate_transcript(TRANSCRIPT):
-    model = PunctuationModel()
-    for line in TRANSCRIPT:
-        line['text'] = model.restore_punctuation(line['text'])
-    return TRANSCRIPT
-
-
-
 
 st.title("YouTube Video To Transcript Converter")
 st.subheader("🤖")
@@ -81,8 +66,6 @@ if submit_button and URL:
     URL_ID = extract_id(URL)
     progress_bar.progress(30, "📜 Fetching Transcript ...📜")
     TRANSCRIPT = fetch_transcript(URL_ID)
-    progress_bar.progress(60, "❓ Punctuating Transcript (_may take a minute or two depending on the length of the video_) ... ❗")
-    TRANSCRIPT = punctuate_transcript(TRANSCRIPT)
     progress_bar.progress(100, "✅ Transcript Ready! ✅")
 
     TRANSCRIPT = [line['text'] for line in TRANSCRIPT]
