@@ -1,4 +1,3 @@
 pytube
 pyperclip
 youtube_transcript_api
-deepmultilingualpunctuation
