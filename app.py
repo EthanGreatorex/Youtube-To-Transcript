@@ -48,12 +48,16 @@ def fetch_transcript(URL):
         TRANSCRIPT = YouTubeTranscriptApi.get_transcript(URL)
     except TranscriptsDisabled:
         st.error("Transcripts are disabled for this video! Please try another video.")
+        st.stop()
     except NoTranscriptFound:
         st.error("No transcript found for this video! Please try another video.")
+        st.stop()
     except VideoUnavailable:
         st.error("Video is unavailable! Please try another video.")
+        st.stop()
     except Exception:
         st.error(f"Whoops! Looks like I ran into a problem :(")
+        st.stop()
     else:
         return TRANSCRIPT
 
