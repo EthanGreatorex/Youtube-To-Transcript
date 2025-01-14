@@ -7,7 +7,7 @@ from pytube import extract
 # pyperclip is for copying the transcript to the clipboard
 import pyperclip
 # youtube_transcript_api is for fetching the transcript
-from youtube_transcript_api import YouTubeTranscriptApi
+from youtube_transcript_api import YouTubeTranscriptApi, TranscriptsDisabled, NoTranscriptFound, VideoUnavailable
 
 # This is to disable comments being added to the web page by streamlit
 magicEnabled = False
@@ -46,10 +46,17 @@ Returns data from the video in the following format:
 def fetch_transcript(URL):
     try:
         TRANSCRIPT = YouTubeTranscriptApi.get_transcript(URL)
+    except TranscriptsDisabled:
+        st.error("Transcripts are disabled for this video! Please try another video.")
+    except NoTranscriptFound:
+        st.error("No transcript found for this video! Please try another video.")
+    except VideoUnavailable:
+        st.error("Video is unavailable! Please try another video.")
     except Exception:
-        st.error("Transcript not available for this video! Make sure the video has subtitles.")
+        st.error(f"Whoops! Looks like I ran into a problem :(")
     else:
         return TRANSCRIPT
+
 
 '''
 Function to output the transcript in a readable format

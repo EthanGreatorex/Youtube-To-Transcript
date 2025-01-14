@@ -1,3 +1,4 @@
+streamlit
 pytube
 pyperclip
 youtube_transcript_api
