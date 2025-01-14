@@ -9,7 +9,7 @@ import pyperclip
 # youtube_transcript_api is for fetching the transcript
 from youtube_transcript_api import YouTubeTranscriptApi
 
-
+# This is to disable comments being added to the web page by streamlit
 magicEnabled = False
 
 
@@ -18,7 +18,13 @@ Extracts the video ID from the URL
 Uses pytubes extract module
 '''
 def extract_id(URL):
-    return extract.video_id(URL)
+    try:
+        ID = extract.video_id(URL)
+    except:
+        st.error("Invalid URL! Please enter a valid YouTube video URL.")
+        st.stop()
+    else:
+        return ID
 
 
 
@@ -38,9 +44,12 @@ Returns data from the video in the following format:
 # ...
 '''
 def fetch_transcript(URL):
-
-    return YouTubeTranscriptApi.get_transcript(URL)
-
+    try:
+        TRANSCRIPT = YouTubeTranscriptApi.get_transcript(URL)
+    except Exception:
+        st.error("Transcript not available for this video! Make sure the video has subtitles.")
+    else:
+        return TRANSCRIPT
 
 '''
 Function to output the transcript in a readable format
@@ -80,9 +89,13 @@ if st.session_state.transcript:
     copy_button = st.button("Copy Transcript 📋")
 
     if copy_button:
-        pyperclip.copy(TRANSCRIPT)
-        st.subheader("🤖")
-        st.write("_Transcript copied to clipboard!_ 📋")
+        try:
+            pyperclip.copy(TRANSCRIPT)
+        except Exception:
+            st.error("Unable to copy transcript! Please try again.")
+        else:
+            st.subheader("🤖")
+            st.write("_Transcript copied to clipboard!_ 📋")
 
     if st.download_button("Download Transcript 📥", data=TRANSCRIPT, file_name="transcript.txt"):
         st.subheader("🤖")
