@@ -73,6 +73,8 @@ def output_transcript(TRANSCRIPT):
 st.title("YouTube Video To Transcript Converter")
 st.subheader("🤖")
 st.write("_Give me a YouTube video URL and I will give you the transcript!_") 
+
+st.error("Warning: YouTube may block the api from fetching the transcript as it is run from a cloud server, if this occurs you will reveive an error message such as '_No transcript found for this video..._' Running the app locally is the only workaround for this issue.")
 URL = st.text_input("Enter the URL of the YouTube video 🎧🎞️", placeholder="https://www.youtube.com/imayoutubevideo")
 
 if 'transcript' not in st.session_state:
